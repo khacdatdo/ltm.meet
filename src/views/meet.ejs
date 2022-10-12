@@ -10,8 +10,8 @@
     <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script defer src="../socket.io/socket.io.js"></script>
     <script>
-        const roomId = "<%= roomId %>";
-        const displayName = "<%= displayName %>";
+        const roomId = "1";
+        const displayName = "User";
     </script>
     <script defer src="../js/meet.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
@@ -22,16 +22,16 @@
 <body>
 
     <div id="root" class="meet-page">
-        <div id="side">
+        <div id="side" class="meet-page__wrapper container">
             <div class="room-info">
-                <h2><%= roomId %> | </h2>
+                <h2> 1 | </h2>
                 <div class="participants-count flex-inline text-primary">
                     <span id="participants-count" class="participants-count__number">1</span>
                     <span class="material-icons-round icon-people">people</span>
                 </div>
             </div>
             <div id="video-grid-parent">
-                <div id="video-grid">
+                <div id="video-grid" class="meet-page__parent">
                     
                 </div>
             </div>

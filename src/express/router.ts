@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.route('/meet').get(function (req, res) {
+router.route('/meet/1').get(function (req, res) {
   res.render('meet');
 });
 

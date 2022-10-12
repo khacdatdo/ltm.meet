@@ -15,7 +15,7 @@
   background: #555;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 
 :root {
   --primary-rgb: 21, 232, 216;
@@ -37,14 +37,14 @@
 }
 
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   background-color: #ffffff;
   color: #000;
 }
 
 input,
 textarea {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .text-primary {
@@ -102,7 +102,7 @@ textarea {
 }
 
 .lounge__header-title {
-  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
   font-size: 1.75rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -112,7 +112,7 @@ textarea {
 
 .loungde__header-description {
   letter-spacing: 0.01785714em;
-  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25rem;
@@ -124,7 +124,7 @@ textarea {
 
 .lounge__button {
   border-radius: 24px;
-  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
   font-size: 0.875rem;
   letter-spacing: 0.0107142857em;
   font-weight: 500;
@@ -158,7 +158,7 @@ textarea {
   border: 1px solid #1a73e8;
   outline: #1a73e8;
   letter-spacing: 0.01785714em;
-  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25rem;
@@ -207,7 +207,7 @@ textarea {
 }
 
 .icon-people::before {
-  content: "";
+  content: '';
 }
 
 .participants-count__number {
@@ -222,6 +222,49 @@ textarea {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+}
+
+.video-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user-video-card-parent {
+  width: calc(50% - 4%);
+  overflow: hidden;
+  max-width: 480px;
+  margin: 2%;
+}
+
+.user-video-card {
+  width: 100%;
+  height: 100%;
+}
+
+.user-video {
+  width: 100%;
+  height: 100%;
+}
+
+.video-background {
+  width: 100%;
+  height: 100%;
+}
+
+.meet-page__wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.meet-page__parent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-height: calc(100vh - 55px);
+  overflow: overlay;
 }
 
 /* mobile */
