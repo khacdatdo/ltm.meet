@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "env": {
+    "node": true
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"]
+    }
+  ],
+  "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "bracketSameLine": true,
+        "jsxSingleQuote": true,
+        "trailingComma": "es5",
+        "endOfLine": "lf",
+        "printWidth": 100,
+        "tabWidth": 2,
+        "arrowParens": "always",
+        "bracketSpacing": true
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "@next/next/no-img-element": "off"
+  }
+}
