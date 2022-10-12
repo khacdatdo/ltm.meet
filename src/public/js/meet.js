@@ -78,13 +78,19 @@
         } else document.querySelector('[id="' + userData.id + '"] video').srcObject = stream;
       });
     });
+
+    socketIO.on('left', function (userData) {
+      console.log('Someone left: ', userData);
+      const userVideo = document.querySelector('.user-video-card-parent[id="' + userData.id + '"]');
+      userVideo.remove();
+    });
   });
 
   // on end call
-  const endCallButton = document.getElementById('end_call');
-  endCallButton.onclick = function () {
-    window.location.href = '/end';
-  };
+  // const endCallButton = document.getElementById('end_call');
+  // endCallButton.onclick = function () {
+  //   window.location.href = '/end';
+  // };
 })();
 
 function createVideo(stream, userName = 'Unknown', userId = 'Unknown', userIconClass = '') {

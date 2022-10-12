@@ -4,8 +4,8 @@
   "description": "A video conference app",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix",
-    "dev": "tsc-watch src/index.ts --onSuccess \"node dist/index.js\" --outDir dist",
+    "lint": "eslint src --fix",
+    "dev": "tsc-watch src/index.ts --onSuccess \"npm start\" --outDir dist",
     "build": "npx tsc",
     "start": "node dist/index.js"
   },
