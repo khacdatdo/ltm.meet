@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet - @khacdatdo</title>
+
+    <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    <script defer src="../socket.io/socket.io.js"></script>
+    <script>
+        const roomId = "1";
+        const displayName = "User";
+    </script>
+    <script defer src="../js/meet.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="../css/grid.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div id="root" class="meet-page">
+        <div id="side" class="meet-page__wrapper container">
+            <div class="room-info">
+                <h2> 1 | </h2>
+                <div class="participants-count flex-inline text-primary">
+                    <span id="participants-count" class="participants-count__number">1</span>
+                    <span class="material-icons-round icon-people">people</span>
+                </div>
+            </div>
+            <div id="video-grid-parent">
+                <div id="video-grid" class="meet-page__parent">
+                    
+                </div>
+            </div>
+        </div>
+        <div id="right-side" class="right-side">
+            <div class="tab-bar">
+                <div class="tab-item active">
+                    <span>Chat</span>
+                </div>
+            </div>
+            <div class="tab-content-parent">
+                <div id="chat" class="tab-content">
+                    <div class="chat-content">
+                    </div>
+                    <div class="chat-input">
+                        <small>Ctr + Enter to send</small>
+                        <textarea class="m-y-1" name="chatContext" cols="30" rows="5" placeholder="Type message..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
