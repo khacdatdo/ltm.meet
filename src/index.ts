@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import server from './socket.io';
+import server from './websocket/index';
 // Config environment variables
 dotenv.config();
 

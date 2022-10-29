@@ -44,16 +44,65 @@
             </div>
             <div class="tab-content-parent">
                 <div id="chat" class="tab-content">
-                    <div class="chat-content">
+                    <div class="chat-content" id="messages">
                     </div>
                     <div class="chat-input">
                         <small>Ctr + Enter to send</small>
-                        <textarea class="m-y-1" name="chatContext" cols="30" rows="5" placeholder="Type message..."></textarea>
+                        <textarea id="messageBox" class="m-y-1" name="chatContext" cols="30" rows="5" placeholder="Type message..."></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
+<script>
+    (function() {
+      const sendBtn = document.querySelector('#send');
+      const messages = document.querySelector('#messages');
+      const messageBox = document.querySelector('#messageBox');
+  
+      let ws;
+  
+      function showMessage(message) {
+        messages.innerHTML += `<p><b>Player</b>: ${message}</p>`;
+        messages.scrollTop = messages.scrollHeight;
+        messageBox.value = '';
+      }
+  
+      function init() {
+        if (ws) {
+          ws.onerror = ws.onopen = ws.onclose = null;
+          ws.close();
+        }
+  
+        ws = new WebSocket('ws://localhost:3000/meet/1');
+        ws.onopen = () => {
+          console.log('Connection opened!');
+        }
+        ws.onmessage = ({ data }) => showMessage(data);
+        ws.onclose = function() {
+          ws = null;
+        }
+      }
+  
+
+      document.body.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            console.log('abc')
+            if (!ws) {
+              showMessage("No WebSocket connection :(");
+              return ;
+            }
+            
+            ws.send(messageBox.value);
+            showMessage(messageBox.value);
+         }
+        });
+  
+      init();
+    })();
+  </script>
 </body>
 
 </html>
