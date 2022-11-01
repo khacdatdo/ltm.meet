@@ -5,7 +5,7 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmitOnError": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "module": "CommonJS",
@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "./",
-    "outDir": "dist"
+    "outDir": "dist",
+    "removeComments": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

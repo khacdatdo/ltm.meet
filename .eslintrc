@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "next/core-web-vitals"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
@@ -18,6 +14,7 @@
     }
   ],
   "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
+  "ignorePatterns": ["dist", "*.js"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -38,6 +35,7 @@
     "@typescript-eslint/no-var-requires": "off",
     "react/no-unescaped-entities": "off",
     "@next/next/no-page-custom-font": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
