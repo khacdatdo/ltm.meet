@@ -17,7 +17,7 @@ console.log('This is meet.js file.');
     });
   });
 
-  const socket = new WebSocket('ws://localhost:3001');
+  const socket = new WebSocket('ws://localhost:3000');
 
   socket.onopen = async () => {
     socket.send(
@@ -71,6 +71,55 @@ console.log('This is meet.js file.');
   socket.onclose = (e) => {
     console.log('Close', e);
   };
+})();
+// chat
+(function () {
+  const messages = document.querySelector('#messages');
+  const messageBox = document.querySelector('#messageBox');
+
+  let ws;
+
+  function showMessage(message) {
+    messages.innerHTML += `<p><b>Player</b>: ${message}</p>`;
+    messages.scrollTop = messages.scrollHeight;
+    messageBox.value = '';
+  }
+
+  function init() {
+    if (ws) {
+      ws.onerror = ws.onopen = ws.onclose = null;
+      ws.close();
+    }
+
+    ws = new WebSocket('ws://localhost:3000/meet');
+    ws.onopen = () => {
+      console.log('Connection opened!');
+    };
+    ws.onmessage = ({ data }) => {
+      if (data.includes('"type":"joined"')) {
+        showMessage('joined');
+      } else {
+        showMessage(data);
+      }
+    };
+    ws.onclose = function () {
+      ws = null;
+    };
+  }
+
+  document.body.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.keyCode == 13) {
+      if (!ws) {
+        showMessage('No WebSocket connection :(');
+        return;
+      }
+
+      ws.send(messageBox.value);
+      showMessage(messageBox.value);
+    }
+  });
+
+  init();
 })();
 
 function addVideo(clientId, stream) {

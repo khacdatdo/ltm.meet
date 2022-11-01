@@ -79,6 +79,16 @@ SocketServer.on('connection', (ws: IWebSocket) => {
       );
     }
   });
+
+  // khi user chat
+  ws.on('message', function incoming(data) {
+    SocketServer.clients.forEach(function each(client) {
+      if (client !== ws) {
+        const base64 = data.toString('utf8');
+        client.send(base64);
+      }
+    });
+  });
 });
 
 export default HttpServer;
