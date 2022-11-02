@@ -60,7 +60,7 @@ console.log('This is meet.js file.');
         break;
 
       case 'chat':
-        showMessage(message.data.message);
+        showMessage(message.data.senderName, message.data.message);
 
       default:
         break;
@@ -118,8 +118,8 @@ function getSavedData(key = '') {
   return JSON.parse(rawData);
 }
 
-function showMessage(message) {
-  messages.innerHTML += `<p><b>Player</b>: ${message}</p>`;
+function showMessage(name, message) {
+  messages.innerHTML += `<p><b>${name}</b>: ${message}</p>`;
   messages.scrollTop = messages.scrollHeight;
   messageBox.value = '';
 }
@@ -140,7 +140,7 @@ function initEventHandlers(ws) {
           },
         })
       );
-      showMessage(messageBox.value);
+      showMessage('Me', messageBox.value);
     }
   });
 }
