@@ -59,6 +59,9 @@ console.log('This is meet.js file.');
         removeVideo(message.data.peerId);
         break;
 
+      case 'chat':
+        console.log('Chat: ', message.data);
+
       default:
         break;
     }

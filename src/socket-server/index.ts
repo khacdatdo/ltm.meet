@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { WebSocketServer } from 'ws';
 import { EEvent, IJoinedData, IMessage, IUser, IWebSocket, TRooms } from '../@types';
 import app from '../express';
-import { onJoined, sendBroadcast } from './handlers';
+import { onChat, onJoined, sendBroadcast } from './handlers';
 
 const HttpServer = createServer(app);
 
@@ -49,6 +49,10 @@ SocketServer.on('connection', (ws: IWebSocket) => {
         roomId = jsonMessage.data.roomId;
         // Xử lý data
         onJoined(ws, jsonMessage.data);
+        break;
+
+      case EEvent.chat:
+        onChat(ws, jsonMessage.data);
         break;
 
       default:
