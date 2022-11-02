@@ -22,6 +22,7 @@ export enum EEvent {
   joined = 'joined',
   newPeer = 'new-peer',
   left = 'left',
+  chat = 'chat',
 }
 
 export interface IMessage {
@@ -33,4 +34,14 @@ export interface IJoinedData {
   roomId: string;
   name: string;
   peerId: string;
+}
+
+export interface IClientChatMessage {
+  message: string;
+}
+
+export interface IChat {
+  senderId: string;
+  senderName: string;
+  message: string;
 }

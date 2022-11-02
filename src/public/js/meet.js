@@ -59,6 +59,9 @@ console.log('This is meet.js file.');
         removeVideo(message.data.peerId);
         break;
 
+      case 'chat':
+        showMessage(message.data.message);
+
       default:
         break;
     }
@@ -71,55 +74,8 @@ console.log('This is meet.js file.');
   socket.onclose = (e) => {
     console.log('Close', e);
   };
-})();
-// chat
-(function () {
-  const messages = document.querySelector('#messages');
-  const messageBox = document.querySelector('#messageBox');
 
-  let ws;
-
-  function showMessage(message) {
-    messages.innerHTML += `<p><b>Player</b>: ${message}</p>`;
-    messages.scrollTop = messages.scrollHeight;
-    messageBox.value = '';
-  }
-
-  function init() {
-    if (ws) {
-      ws.onerror = ws.onopen = ws.onclose = null;
-      ws.close();
-    }
-
-    ws = new WebSocket('ws://localhost:3000/meet');
-    ws.onopen = () => {
-      console.log('Connection opened!');
-    };
-    ws.onmessage = ({ data }) => {
-      if (data.includes('"type":"joined"')) {
-        showMessage('joined');
-      } else {
-        showMessage(data);
-      }
-    };
-    ws.onclose = function () {
-      ws = null;
-    };
-  }
-
-  document.body.addEventListener('keydown', function (e) {
-    if (e.ctrlKey && e.keyCode == 13) {
-      if (!ws) {
-        showMessage('No WebSocket connection :(');
-        return;
-      }
-
-      ws.send(messageBox.value);
-      showMessage(messageBox.value);
-    }
-  });
-
-  init();
+  initEventHandlers(socket);
 })();
 
 function addVideo(clientId, stream) {
@@ -160,4 +116,31 @@ function getSavedData(key = '') {
   const rawData = sessionStorage.getItem(key);
   if (!rawData) return null;
   return JSON.parse(rawData);
+}
+
+function showMessage(message) {
+  messages.innerHTML += `<p><b>Player</b>: ${message}</p>`;
+  messages.scrollTop = messages.scrollHeight;
+  messageBox.value = '';
+}
+
+function initEventHandlers(ws) {
+  document.body.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.keyCode == 13) {
+      if (!ws) {
+        showMessage('No WebSocket connection :(');
+        return;
+      }
+
+      ws.send(
+        JSON.stringify({
+          type: 'chat',
+          data: {
+            message: messageBox.value,
+          },
+        })
+      );
+      showMessage(messageBox.value);
+    }
+  });
 }

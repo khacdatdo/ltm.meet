@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { WebSocketServer } from 'ws';
 import { EEvent, IJoinedData, IMessage, IUser, IWebSocket, TRooms } from '../@types';
 import app from '../express';
-import { onJoined, sendBroadcast } from './handlers';
+import { onChat, onJoined, sendBroadcast } from './handlers';
 
 const HttpServer = createServer(app);
 
@@ -51,6 +51,11 @@ SocketServer.on('connection', (ws: IWebSocket) => {
         onJoined(ws, jsonMessage.data);
         break;
 
+      case EEvent.chat:
+        // Xử lý chat
+        onChat(ws, jsonMessage.data);
+        break;
+
       default:
         break;
     }
@@ -78,16 +83,6 @@ SocketServer.on('connection', (ws: IWebSocket) => {
         }
       );
     }
-  });
-
-  // khi user chat
-  ws.on('message', function incoming(data) {
-    SocketServer.clients.forEach(function each(client) {
-      if (client !== ws) {
-        const base64 = data.toString('utf8');
-        client.send(base64);
-      }
-    });
   });
 });
 
