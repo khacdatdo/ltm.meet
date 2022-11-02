@@ -28,7 +28,6 @@ export const sendBroadcast = (
 export const onJoined = (clientSocket: IWebSocket, data: IJoinedData) => {
   clientSocket.data = { ...clientSocket.data, ...data };
   let room = ROOMS.find((r) => r.id === data.roomId);
-  console.log('join');
   if (!room) {
     room = {
       id: data.roomId,
@@ -67,6 +66,11 @@ export const onJoined = (clientSocket: IWebSocket, data: IJoinedData) => {
   );
 };
 
+/**
+ * Xử lý khi client gửi tin nhắn
+ * @param clientSocket Client socket
+ * @param data Thông điệp có chứa tin nhắn từ client
+ */
 export const onChat = (clientSocket: IWebSocket, data: IClientChatMessage) => {
   // Xử lý chat
   const room = ROOMS.find((r) => r.id === clientSocket.data.roomId);
