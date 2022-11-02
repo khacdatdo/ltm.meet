@@ -28,6 +28,7 @@ export const sendBroadcast = (
 export const onJoined = (clientSocket: IWebSocket, data: IJoinedData) => {
   clientSocket.data = { ...clientSocket.data, ...data };
   let room = ROOMS.find((r) => r.id === data.roomId);
+  console.log('join');
   if (!room) {
     room = {
       id: data.roomId,

@@ -52,6 +52,7 @@ SocketServer.on('connection', (ws: IWebSocket) => {
         break;
 
       case EEvent.chat:
+        // Xử lý chat
         onChat(ws, jsonMessage.data);
         break;
 
