@@ -169,7 +169,33 @@ body {
 .meet-icon-item.active {
   background-color: red;
 }
-.meet-icon-item.active .icon {
+
+.meet-icon-item.active .icon-micro {
+  display: none;
+}
+
+.meet-icon-item.active .icon-video {
+  display: none;
+}
+.icon-mute-micro {
+  display: none;
+}
+
+.meet-icon-item.active .icon-mute-micro {
+  display: block;
+}
+.meet-icon-item.active .icon-mute-micro {
+  color: #fff;
+}
+
+.icon-off-video {
+  display: none;
+}
+
+.meet-icon-item.active .icon-off-video {
+  display: block;
+}
+.meet-icon-item.active .icon-off-video {
   color: #fff;
 }
 
@@ -211,6 +237,30 @@ body {
   height: 100%;
   width: 25%;
   border-right: 1px solid #dadce0;
+}
+
+@media screen and (max-width: 768px) {
+  .meet-settings {
+    flex-direction: column !important;
+  }
+
+  .meet-settings__tab {
+    max-width: unset !important;
+    width: 100% !important;
+    border-right: none;
+    border-bottom: 1px solid #dadce0;
+    height: unset !important;
+  }
+
+  .meet-settings__main {
+    width: 100% !important;
+    max-width: unset !important;
+  }
+
+  .grid-video video {
+    width: 45%;
+    margin: 1.5%;
+  }
 }
 
 .meet-settings__tab h1 {
