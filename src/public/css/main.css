@@ -97,7 +97,7 @@ body {
   border-radius: 25px;
   display: flex;
   flex-direction: row;
-  height: 3rem;
+  height: 4rem;
   text-align: left;
   padding: 0.8rem 1rem;
   border-color: #1a73e8;
@@ -128,17 +128,49 @@ body {
   bottom: 10px;
   height: 60px;
   z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .icon {
   width: 18px;
   height: 18px;
-  margin: 0 20px;
+  margin: 0 10px;
   cursor: pointer;
   color: #202124;
-  background-color: #ffffff;
-  padding: 20px;
+}
+
+.video,
+.voice {
+  display: none;
+}
+
+.video.active,
+.voice.active {
+  display: block;
+}
+
+.meet-icon {
+  display: flex;
+  flex-direction: row;
+}
+
+.meet-icon-item {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
   border-radius: 50%;
+}
+
+.meet-icon-item.active {
+  background-color: red;
+}
+.meet-icon-item.active .icon {
+  color: #fff;
 }
 
 .button-close-chat {
@@ -151,6 +183,85 @@ body {
   padding: 0;
   width: 20px;
   height: 20px;
+}
+
+.meet-settings {
+  position: absolute;
+  display: none;
+  max-width: 800px;
+  height: 600px;
+  background-color: #fff;
+  border-radius: 15px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 4;
+  border: 1px solid #dadce0;
+  margin: auto;
+}
+
+.meet-settings.active {
+  display: flex;
+  flex-direction: row;
+}
+
+.meet-settings__tab {
+  max-width: 25%;
+  height: 100%;
+  width: 25%;
+  border-right: 1px solid #dadce0;
+}
+
+.meet-settings__tab h1 {
+  line-height: 1.75rem;
+  font-size: 1.375rem;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: #202124;
+  display: block;
+  margin: 1.5rem;
+}
+
+.meet-settings__main {
+  max-width: 75%;
+}
+
+.meet-settings__tab-item {
+  padding: 1rem;
+}
+
+.meet-settings__main {
+  padding: 2rem;
+}
+
+.meet-settings__main-title {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  color: #1a73e8;
+  margin-bottom: 10px;
+}
+.meet-settings__main-button-close-chat {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.meet-settings__main-button-close-chat .icon {
+  width: 35px;
+  height: 35px;
+}
+
+.meet-settings__main .form-select {
+  margin-bottom: 10px;
+}
+
+.meet-settings__tab-item:hover {
+  background-color: #e8f0fe;
+  color: #1967d2;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
