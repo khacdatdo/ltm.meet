@@ -56,6 +56,37 @@ body {
   justify-content: center;
 }
 
+.share-screen-tab {
+  position: absolute;
+  bottom: 0;
+  background-color: #fff;
+  max-width: 300px;
+  width: fit-content;
+}
+
+.share-screen-tab ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.share-screen-tab li {
+  white-space: nowrap;
+  padding: 10px 10px;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  cursor: pointer;
+}
+
+.share-screen-tab li:hover {
+  background: #d6d7d8;
+}
+
 .tab-content {
   max-width: 30rem;
   width: 100%;
