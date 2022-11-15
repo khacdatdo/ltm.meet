@@ -44,7 +44,6 @@ console.log('This is meet.js file.');
   // Khi có ai đó gửi yêu cầu kết nối
   peer.on('call', (call) => {
     callers.push(call);
-
     // Truyền lại stream cho họ
     call.answer(localStream);
     // Lắng nghe khi họ gửi stream tới
@@ -86,7 +85,7 @@ console.log('This is meet.js file.');
         const call = peer.call(message.data.peerId, localStream);
         callers.push(call);
         call.on('stream', (remoteStream) => {
-          addVideo(call.peer, remoteStream, settingsDeviceIds.speaker);
+          addVideo(call.peer, remoteStream, settingsDeviceIds.speaker, message.data.name);
         });
         break;
 
@@ -246,10 +245,21 @@ console.log('This is meet.js file.');
       });
     }
   });
+  // end call
+  const endCallButton = document.getElementById('end_call');
+  endCallButton.addEventListener('click', function () {
+    window.location.href = '/end';
+  });
 })();
 
-function addVideo(clientId, stream, speakerId = undefined) {
+function addVideo(clientId, stream, speakerId = undefined, name) {
   if (!document.getElementById(clientId)) {
+    const videoWrapper = document.createElement('div');
+    videoWrapper.id = `video-${clientId}`;
+    const nameVideo = document.createElement('div');
+    nameVideo.classList.add('name-video');
+    nameVideo.innerHTML = name ? name : 'Me';
+    videoWrapper.classList.add('video-wrapper');
     const video = document.createElement('video');
     video.id = clientId;
     video.srcObject = stream;
@@ -259,14 +269,18 @@ function addVideo(clientId, stream, speakerId = undefined) {
       video.muted = true;
       video.setSinkId(speakerId);
     }
+    videoWrapper.appendChild(video);
+    videoWrapper.appendChild(nameVideo);
     const gridVideo = document.querySelector('.grid-video');
-    gridVideo.appendChild(video);
+    gridVideo.appendChild(videoWrapper);
   }
 }
 
 function removeVideo(clientId) {
   const video = document.getElementById(clientId);
+  const videoWrapper = document.getElementById(`video-${clientId}`);
   if (video) video.remove();
+  if (videoWrapper) videoWrapper.remove();
 }
 
 async function getLocalStream(
