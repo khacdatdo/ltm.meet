@@ -30,15 +30,23 @@ const hideSettings = () => {
 const chooseVoice = () => {
   const voice = document.getElementById('voice-settings');
   const video = document.getElementById('video-settings');
+  const voiceTab = document.getElementById('meet-settings__tab-voice');
+  const videoTab = document.getElementById('meet-settings__tab-video');
   voice.classList.add('active');
   video.classList.remove('active');
+  voiceTab.classList.add('active');
+  videoTab.classList.remove('active');
 };
 
 const chooseVideo = () => {
   const voice = document.getElementById('voice-settings');
   const video = document.getElementById('video-settings');
+  const voiceTab = document.getElementById('meet-settings__tab-voice');
+  const videoTab = document.getElementById('meet-settings__tab-video');
   video.classList.add('active');
   voice.classList.remove('active');
+  voiceTab.classList.remove('active');
+  videoTab.classList.add('active');
 };
 
 const muteMicro = () => {
@@ -56,5 +64,14 @@ const muteVideo = () => {
     video.classList.remove('active');
   } else {
     video.classList.add('active');
+  }
+};
+
+const shareScreen = () => {
+  const meetVideo = document.getElementById('meet-video');
+  if (meetVideo.classList.contains('active-stream')) {
+    meetVideo.classList.remove('active-stream');
+  } else {
+    meetVideo.classList.add('active-stream');
   }
 };
