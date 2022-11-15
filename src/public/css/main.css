@@ -16,6 +16,20 @@ video {
   display: none;
 }
 
+.video-wrapper {
+  position: relative;
+}
+
+.video-wrapper .name-video {
+  position: absolute;
+  bottom: 25px;
+  left: 32px;
+  color: #fff;
+  padding: 2px 12px;
+  background: #000;
+  border-radius: 5px;
+}
+
 .meet-video.active-stream .video-stream {
   width: 75%;
   max-width: unset;
