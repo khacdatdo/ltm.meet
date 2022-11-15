@@ -19,6 +19,7 @@ const showSettings = () => {
   } else {
     meetSettings.classList.add('active');
   }
+  return meetSettings;
 };
 
 const hideSettings = () => {
