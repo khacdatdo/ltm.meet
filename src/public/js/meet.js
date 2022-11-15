@@ -2,11 +2,43 @@ console.log('This is meet.js file.');
 
 (async () => {
   const peer = new Peer();
-  const callers = [];
   const peerId = await getPeerId(peer);
 
-  let localStream = await getLocalStream();
-  console.log(localStream.getTracks());
+  /**
+   * Lưu trữ các cuộc gọi
+   */
+  const callers = [];
+
+  /**
+   * Danh sách devices
+   */
+  const localMediaDevices = await navigator.mediaDevices.enumerateDevices();
+
+  /**
+   * Settings
+   */
+  const settingsDeviceIds = {
+    micro: {
+      deviceId: localMediaDevices.find((d) => d.kind === 'audioinput')?.deviceId,
+      enabled: true,
+    },
+    speaker: {
+      deviceId: localMediaDevices.find((d) => d.kind === 'audiooutput')?.deviceId,
+    },
+    camera: {
+      deviceId: localMediaDevices.find((d) => d.kind === 'videoinput')?.deviceId,
+      enabled: true,
+    },
+  };
+
+  const localStream = await getLocalStream({
+    audio: {
+      deviceId: settingsDeviceIds.micro,
+    },
+    video: {
+      deviceId: settingsDeviceIds.camera,
+    },
+  });
   addVideo(peerId, localStream);
 
   // Khi có ai đó gửi yêu cầu kết nối
@@ -17,7 +49,7 @@ console.log('This is meet.js file.');
     call.answer(localStream);
     // Lắng nghe khi họ gửi stream tới
     call.on('stream', (remoteStream) => {
-      addVideo(call.peer, remoteStream);
+      addVideo(call.peer, remoteStream, settingsDeviceIds.speaker);
     });
   });
 
@@ -28,8 +60,8 @@ console.log('This is meet.js file.');
       JSON.stringify({
         type: 'joined',
         data: {
-          roomId: 'something',
-          name: Math.random().toString(),
+          roomId: document.getElementById('room-info').getAttribute('room-id'),
+          name: document.getElementById('room-info').getAttribute('display-name'),
           peerId,
         },
       })
@@ -44,8 +76,6 @@ console.log('This is meet.js file.');
       return;
     }
 
-    console.log(message);
-
     switch (message.type) {
       case 'users':
         saveData('users', message.data);
@@ -56,7 +86,7 @@ console.log('This is meet.js file.');
         const call = peer.call(message.data.peerId, localStream);
         callers.push(call);
         call.on('stream', (remoteStream) => {
-          addVideo(call.peer, remoteStream);
+          addVideo(call.peer, remoteStream, settingsDeviceIds.speaker);
         });
         break;
 
@@ -131,14 +161,10 @@ console.log('This is meet.js file.');
   /**
    * Sự kiện mở tab Settings
    */
-  navigator.mediaDevices.addEventListener('devicechange', (e) => {
-    console.log('Device changed', e);
-  });
   document.getElementById('icon-settings').addEventListener('click', async () => {
     const element = showSettings();
     if (element && element.classList.contains('active')) {
       const devices = await navigator.mediaDevices.enumerateDevices();
-      console.log(devices);
 
       // Cập nhật danh sách thiết bị
       // -> Mircro
@@ -150,7 +176,8 @@ console.log('This is meet.js file.');
           micros.map((m) => ({
             label: m.label,
             value: m.deviceId,
-          }))
+          })),
+          settingsDeviceIds.micro.deviceId
         )
       );
       // -> Speakers
@@ -162,7 +189,8 @@ console.log('This is meet.js file.');
           speakers.map((s) => ({
             label: s.label,
             value: s.deviceId,
-          }))
+          })),
+          settingsDeviceIds.speaker.deviceId
         )
       );
       // Cameras
@@ -174,7 +202,8 @@ console.log('This is meet.js file.');
           cameras.map((c) => ({
             label: c.label,
             value: c.deviceId,
-          }))
+          })),
+          settingsDeviceIds.camera.deviceId
         )
       );
     }
@@ -190,12 +219,14 @@ console.log('This is meet.js file.');
       },
     });
     if (newLocalStream) {
+      settingsDeviceIds.micro.deviceId = event.target.value;
       localStream.removeTrack(localStream.getAudioTracks()[0]);
       localStream.addTrack(newLocalStream.getAudioTracks()[0]);
     }
   });
   document.getElementById('select-speaker').addEventListener('change', async (event) => {
     const videos = document.querySelectorAll('video');
+    settingsDeviceIds.speaker.deviceId = event.target.value;
     videos.forEach((video) => {
       video.setSinkId(event.target.value);
     });
@@ -207,6 +238,7 @@ console.log('This is meet.js file.');
       },
     });
     if (newLocalStream) {
+      settingsDeviceIds.camera.deviceId = event.target.value;
       localStream.removeTrack(localStream.getVideoTracks()[0]);
       localStream.addTrack(newLocalStream.getVideoTracks()[0]);
       callers.forEach((call) => {
@@ -216,13 +248,17 @@ console.log('This is meet.js file.');
   });
 })();
 
-function addVideo(clientId, stream) {
+function addVideo(clientId, stream, speakerId = undefined) {
   if (!document.getElementById(clientId)) {
     const video = document.createElement('video');
     video.id = clientId;
     video.srcObject = stream;
     video.playsInline = true;
     video.autoplay = true;
+    if (!speakerId) {
+      video.muted = true;
+      video.setSinkId(speakerId);
+    }
     const gridVideo = document.querySelector('.grid-video');
     gridVideo.appendChild(video);
   }

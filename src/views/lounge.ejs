@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,28 +10,32 @@
     <link rel="stylesheet" href="/css/grid.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <div id="root">
         <div class="container lounge__wrapper">
             <div class="lounge__header">
                 <h1 class="lounge__header-title">Team Meeting</h1>
-                <p class="text-center loungde__header-description">Please allow us to using your camera and microphone.</p>
+                <p class="text-center loungde__header-description">Please allow us to using your camera and microphone.
+                </p>
                 <div class="form-element lounge__input-text">
-                    <input class="lounge__name" class="text-center" autocomplete="off" type="text" name="display_name" placeholder="Display name">
+                    <input class="lounge__name" class="text-center" autocomplete="off" type="text" name="display_name"
+                        placeholder="Display name">
                 </div>
-                <button id="btn-join" class="btn lounge__button">JOIN NOW</button>
+                <button id="btn-join" room-id="<%= roomId %>" class="btn lounge__button">JOIN NOW</button>
             </div>
             <div class="body row justify-center m-y-4 lounge__left">
                 <div>
                     <div class="form-element m-4">
-                        <video class="lounge__video" id="preview-video" autoplay playsinline></video>
-                    </div> 
+                        <video class="lounge__video" id="preview-video" autoplay playsinline muted></video>
+                    </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
     <script src="/js/lounge.js"></script>
 </body>
+
 </html>

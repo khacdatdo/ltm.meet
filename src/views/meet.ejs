@@ -17,15 +17,12 @@
 </head>
 
 <body>
+    <div id="room-info" room-id="<%= roomId %>" display-name="<%= displayName %>"></div>
     <div class="meet">
         <div class="meet-video" id="meet-video">
             <div class="video-stream">
                 <!-- video stream -->
-                <video controls>
-                    <source src="movie.mp4" type="video/mp4">
-                    <source src="movie.ogg" type="video/ogg">
-                    Your browser does not support the video tag.
-                </video>
+                <video id="stream-video" autoplay playsInline controls="off"></video>
             </div>
             <div class="grid-video">
                 <!-- video thuong -->
@@ -42,8 +39,8 @@
                         </svg>
                     </div>
                     <!-- icon settings -->
-                    <div class="meet-icon-item">
-                        <svg class="icon icon-settings" onclick="showSettings()" xmlns="http://www.w3.org/2000/svg"
+                    <div class="meet-icon-item" id="icon-settings">
+                        <svg class="icon icon-settings" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256"
                             viewBox="0 0 256 256" xml:space="preserve">
 
@@ -59,7 +56,7 @@
                         </svg>
                     </div>
                     <!-- icon micro -->
-                    <div class="meet-icon-item" onclick="muteMicro()" id="icon-micro">
+                    <div class="meet-icon-item" id="icon-micro">
                         <svg width="20" height="30" class="icon icon-micro" viewBox="0 0 20 30" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -96,7 +93,7 @@
 
                     </div>
                     <!-- icon video -->
-                    <div class="meet-icon-item" onclick="muteVideo()" id="icon-video">
+                    <div class="meet-icon-item" id="icon-video">
                         <svg width="32" height="21" class="icon icon-video" viewBox="0 0 32 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M31 4L22 11L31 18V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -126,11 +123,10 @@
 
                     </div>
                     <!-- icon share screen -->
-                    <div class="meet-icon-item" style="position: relative;">
+                    <div id="icon-share-screen" class="meet-icon-item" style="position: relative;">
 
-                        <svg class="icon icon-share-screen" onclick="shareScreen()" width="24px" height="16px"
-                            viewBox="0 0 24 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg class="icon icon-share-screen" width="24px" height="16px" viewBox="0 0 24 16" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
                             <title>screen_share</title>
                             <desc>Created with Sketch.</desc>
@@ -203,15 +199,6 @@
 
         <!-- settings -->
         <div class="meet-settings" id="meet-settings">
-            <!-- <div class="button-close-settings" id="button-close-chat" onclick="hideSettings()">
-                <svg class="icon icon-close" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 13L26 26" stroke="#323232" stroke-width="2.4375" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path d="M26 13L13 26" stroke="#323232" stroke-width="2.4375" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-
-            </div> -->
             <div class="meet-settings__tab">
                 <h1>Cài đặt</h1>
                 <div class="meet-settings__tab-voice meet-settings__tab-item active" id="meet-settings__tab-voice"
@@ -253,18 +240,7 @@
                         Máy ảnh
                     </div>
                     <select id="select-camera" class="form-select" aria-label="Default select example">
-
                     </select>
-                    <div class="meet-settings__main-title">
-                        Preview Camera
-                    </div>
-                    <div class="meet-settings__preview-camera">
-                        <video width="320" height="240" controls>
-                            <source src="movie.mp4" type="video/mp4">
-                            <source src="movie.ogg" type="video/ogg">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
                 </div>
             </div>
         </div>
