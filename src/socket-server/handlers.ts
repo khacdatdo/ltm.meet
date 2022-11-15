@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
 import { ROOMS, SocketServer } from '.';
-import { EEvent, IJoinedData, IMessage, IWebSocket } from '../@types';
+import { EEvent, IChat, IClientChatMessage, IJoinedData, IMessage, IWebSocket } from '../@types';
 
 /**
  * Gửi một thông điệp đến các client đang hoạt động
@@ -63,5 +63,29 @@ export const onJoined = (clientSocket: IWebSocket, data: IJoinedData) => {
       type: EEvent.users,
       data: room.users,
     } as IMessage)
+  );
+};
+
+/**
+ * Xử lý khi client gửi tin nhắn
+ * @param clientSocket Client socket
+ * @param data Thông điệp có chứa tin nhắn từ client
+ */
+export const onChat = (clientSocket: IWebSocket, data: IClientChatMessage) => {
+  // Xử lý chat
+  const room = ROOMS.find((r) => r.id === clientSocket.data.roomId);
+  sendBroadcast(
+    // @ts-ignore
+    Array.from(SocketServer.clients).filter((client: IWebSocket) => {
+      return room.users.some((u) => u.id !== clientSocket.data.id && client.data.id === u.id);
+    }),
+    {
+      type: EEvent.chat,
+      data: {
+        senderId: clientSocket.data.id,
+        senderName: clientSocket.data.name,
+        message: data.message,
+      } as IChat,
+    }
   );
 };
