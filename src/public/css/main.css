@@ -7,6 +7,14 @@ video {
   padding: 15px;
 }
 
+.video-wrapper {
+  object-fit: cover;
+  border-radius: 30px;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+
 * {
   margin: 0;
   padding: 0;
