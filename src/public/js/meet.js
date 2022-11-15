@@ -2,13 +2,17 @@ console.log('This is meet.js file.');
 
 (async () => {
   const peer = new Peer();
+  const callers = [];
   const peerId = await getPeerId(peer);
 
   let localStream = await getLocalStream();
+  console.log(localStream.getTracks());
   addVideo(peerId, localStream);
 
   // Khi có ai đó gửi yêu cầu kết nối
   peer.on('call', (call) => {
+    callers.push(call);
+
     // Truyền lại stream cho họ
     call.answer(localStream);
     // Lắng nghe khi họ gửi stream tới
@@ -50,6 +54,7 @@ console.log('This is meet.js file.');
       case 'new-peer':
         // Yêu cầu kết nối và truyền stream tới cho người mới
         const call = peer.call(message.data.peerId, localStream);
+        callers.push(call);
         call.on('stream', (remoteStream) => {
           addVideo(call.peer, remoteStream);
         });
@@ -86,12 +91,12 @@ console.log('This is meet.js file.');
    */
   document.body.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.keyCode == 13) {
-      if (!ws) {
+      if (!socket) {
         showMessage('No WebSocket connection :(');
         return;
       }
 
-      ws.send(
+      socket.send(
         JSON.stringify({
           type: 'chat',
           data: {
@@ -126,11 +131,15 @@ console.log('This is meet.js file.');
   /**
    * Sự kiện mở tab Settings
    */
+  navigator.mediaDevices.addEventListener('devicechange', (e) => {
+    console.log('Device changed', e);
+  });
   document.getElementById('icon-settings').addEventListener('click', async () => {
     const element = showSettings();
     if (element && element.classList.contains('active')) {
       const devices = await navigator.mediaDevices.enumerateDevices();
       console.log(devices);
+
       // Cập nhật danh sách thiết bị
       // -> Mircro
       const micros = devices.filter((d) => d.kind === 'audioinput');
@@ -175,18 +184,35 @@ console.log('This is meet.js file.');
    * Sự kiện thay đổi nguồn (micro, camera, speaker)
    */
   document.getElementById('select-micro').addEventListener('change', async (event) => {
-    localStream = await getLocalStream({
+    const newLocalStream = await getLocalStream({
       audio: {
         deviceId: event.target.value,
       },
+    });
+    if (newLocalStream) {
+      localStream.removeTrack(localStream.getAudioTracks()[0]);
+      localStream.addTrack(newLocalStream.getAudioTracks()[0]);
+    }
+  });
+  document.getElementById('select-speaker').addEventListener('change', async (event) => {
+    const videos = document.querySelectorAll('video');
+    videos.forEach((video) => {
+      video.setSinkId(event.target.value);
     });
   });
   document.getElementById('select-camera').addEventListener('change', async (event) => {
-    localStream = await getLocalStream({
-      audio: {
+    const newLocalStream = await getLocalStream({
+      video: {
         deviceId: event.target.value,
       },
     });
+    if (newLocalStream) {
+      localStream.removeTrack(localStream.getVideoTracks()[0]);
+      localStream.addTrack(newLocalStream.getVideoTracks()[0]);
+      callers.forEach((call) => {
+        call.peerConnection.getSenders()[1].replaceTrack(newLocalStream.getVideoTracks()[0]);
+      });
+    }
   });
 })();
 
@@ -217,7 +243,7 @@ async function getLocalStream(
     const stream = await navigator.mediaDevices.getUserMedia(contraints);
     return stream;
   } catch (error) {
-    alert('Có lỗi trong khi lấy media stream');
+    alert('Có lỗi trong khi lấy media stream.\n' + error);
     return null;
   }
 }
