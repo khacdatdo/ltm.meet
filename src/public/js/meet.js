@@ -10,6 +10,11 @@ console.log('This is meet.js file.');
   const callers = [];
 
   /**
+   * Lưu trữ người dùng trong room
+   */
+  let users = [];
+
+  /**
    * Danh sách devices
    */
   const localMediaDevices = await navigator.mediaDevices.enumerateDevices();
@@ -48,7 +53,8 @@ console.log('This is meet.js file.');
     call.answer(localStream);
     // Lắng nghe khi họ gửi stream tới
     call.on('stream', (remoteStream) => {
-      addVideo(call.peer, remoteStream, settingsDeviceIds.speaker);
+      const name = users.find((u) => u.peerId === call.peer).name;
+      addVideo(call.peer, remoteStream, settingsDeviceIds.speaker, name);
     });
   });
 
@@ -78,10 +84,12 @@ console.log('This is meet.js file.');
     switch (message.type) {
       case 'users':
         saveData('users', message.data);
+        users = message.data;
         break;
 
       case 'new-peer':
         // Yêu cầu kết nối và truyền stream tới cho người mới
+        users.push(message.data);
         const call = peer.call(message.data.peerId, localStream);
         callers.push(call);
         call.on('stream', (remoteStream) => {
